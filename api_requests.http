@@ -1,0 +1,266 @@
+### Weather MCP Server API Requests
+### URL base: http://localhost:3003
+
+### ==============================================
+### HEALTH & STATUS
+### ==============================================
+
+### 1. Health Check
+GET http://localhost:3003/health
+
+### 2. Listar herramientas disponibles
+GET http://localhost:3003/tools
+
+### 3. Listar herramientas (método MCP)
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "tools-list",
+  "method": "tools/list",
+  "params": {}
+}
+
+### ==============================================
+### HERRAMIENTAS DEL CLIMA
+### ==============================================
+
+### 4. Obtener clima actual - Madrid
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "current-madrid",
+  "method": "tools/call",
+  "params": {
+    "name": "get_current_weather",
+    "arguments": {
+      "location": "Madrid"
+    }
+  }
+}
+
+### 5. Clima actual con calidad del aire - Buenos Aires
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "current-buenos-aires-aqi",
+  "method": "tools/call",
+  "params": {
+    "name": "get_current_weather",
+    "arguments": {
+      "location": "Buenos Aires",
+      "aqi": "yes"
+    }
+  }
+}
+
+### 6. Pronóstico 3 días - Barcelona
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "forecast-barcelona",
+  "method": "tools/call",
+  "params": {
+    "name": "get_forecast",
+    "arguments": {
+      "location": "Barcelona",
+      "days": 3
+    }
+  }
+}
+
+### 7. Pronóstico 5 días con AQI y alertas - Ciudad de México
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "forecast-mexico-full",
+  "method": "tools/call",
+  "params": {
+    "name": "get_forecast",
+    "arguments": {
+      "location": "Ciudad de México",
+      "days": 5,
+      "aqi": "yes",
+      "alerts": "yes"
+    }
+  }
+}
+
+### 8. Buscar ubicaciones - Sevilla
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "search-sevilla",
+  "method": "tools/call",
+  "params": {
+    "name": "search_locations",
+    "arguments": {
+      "query": "Sevilla"
+    }
+  }
+}
+
+### 9. Buscar ubicaciones - London
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "search-london",
+  "method": "tools/call",
+  "params": {
+    "name": "search_locations",
+    "arguments": {
+      "query": "London"
+    }
+  }
+}
+
+### 10. Datos astronómicos - Valencia (hoy)
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "astronomy-valencia-today",
+  "method": "tools/call",
+  "params": {
+    "name": "get_astronomy",
+    "arguments": {
+      "location": "Valencia"
+    }
+  }
+}
+
+### 11. Datos astronómicos - Santiago (fecha específica)
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "astronomy-santiago-date",
+  "method": "tools/call",
+  "params": {
+    "name": "get_astronomy",
+    "arguments": {
+      "location": "Santiago",
+      "date": "2024-12-25"
+    }
+  }
+}
+
+### ==============================================
+### EJEMPLOS CON COORDENADAS
+### ==============================================
+
+### 12. Clima por coordenadas - París
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "current-coordinates-paris",
+  "method": "tools/call",
+  "params": {
+    "name": "get_current_weather",
+    "arguments": {
+      "location": "48.8566,2.3522"
+    }
+  }
+}
+
+### 13. Pronóstico por código postal - Nueva York
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "forecast-zip-nyc",
+  "method": "tools/call",
+  "params": {
+    "name": "get_forecast",
+    "arguments": {
+      "location": "10001",
+      "days": 7
+    }
+  }
+}
+
+### ==============================================
+### EJEMPLOS CON IP (AUTO-DETECCIÓN)
+### ==============================================
+
+### 14. Clima por IP automática
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "current-auto-ip",
+  "method": "tools/call",
+  "params": {
+    "name": "get_current_weather",
+    "arguments": {
+      "location": "auto:ip"
+    }
+  }
+}
+
+### ==============================================
+### CASOS DE PRUEBA ESPECÍFICOS
+### ==============================================
+
+### 15. Pronóstico máximo (10 días) - Tokio
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "forecast-tokyo-max",
+  "method": "tools/call",
+  "params": {
+    "name": "get_forecast",
+    "arguments": {
+      "location": "Tokyo",
+      "days": 10,
+      "aqi": "yes",
+      "alerts": "yes"
+    }
+  }
+}
+
+### 16. Astronomía para fecha futura - Maldivas
+POST http://localhost:3003/
+Content-Type: application/json
+
+{
+  "id": "astronomy-maldives-future",
+  "method": "tools/call",
+  "params": {
+    "name": "get_astronomy",
+    "arguments": {
+      "location": "Maldives",
+      "date": "2025-06-21"
+    }
+  }
+}
+
+### ==============================================
+### VARIABLES DE ENTORNO (opcional)
+### ==============================================
+# Para usar variables, descomenta las siguientes líneas:
+# @baseUrl = http://localhost:3003
+# @location = Madrid
+
+# Ejemplo usando variables:
+# POST {{baseUrl}}/
+# Content-Type: application/json
+#
+# {
+#   "id": "test-with-variable",
+#   "method": "tools/call",
+#   "params": {
+#     "name": "get_current_weather",
+#     "arguments": {
+#       "location": "{{location}}"
+#     }
+#   }
+# } 
